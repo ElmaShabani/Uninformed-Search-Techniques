@@ -1,10 +1,10 @@
-"""Mjete të përbashkëta. Kërkon vetëm bibliotekën standarde të Python 3.10+."""
+"""Shared search utilities. Requires only the Python 3.10+ standard library."""
 from dataclasses import dataclass, asdict
 from time import perf_counter
 
 
 class SearchLimit(RuntimeError):
-    """Kufiri i burimeve nuk është provë se problemi s'ka zgjidhje."""
+    """Reaching a resource limit does not prove that the problem has no solution."""
 
 
 @dataclass

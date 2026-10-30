@@ -1,4 +1,4 @@
-"""Kontrolle për modelin dhe numërimin e hapësirës së gjendjeve."""
+"""Tests for the model and state space counts."""
 
 import unittest
 from itertools import combinations
@@ -8,7 +8,7 @@ from model import landscape, objective, upper_bound, valid
 
 class ModelTests(unittest.TestCase):
     def test_partitions_against_enumeration(self):
-        # Të gjitha ndarjet e katër lojtarëve në dy çifte pa renditje.
+        # All partitions of four players into two unordered pairs.
         players = set(range(4))
         partitions = set()
         for pair in combinations(players, 2):

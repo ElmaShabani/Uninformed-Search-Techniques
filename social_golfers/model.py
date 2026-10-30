@@ -1,9 +1,9 @@
-"""Modeli fillestar për Social Golfers.
+"""Initial model for the Social Golfers problem.
 
-Variabla x[java, lojtari] përcakton grupin e lojtarit atë javë.
-Domain-i është {0, ..., g-1}; lojtarët numërohen nga 0 në g*p-1.
-Çdo grup ka p lojtarë dhe asnjë çift nuk lejohet të përsëritet.
-Orari ruhet si listë javësh, secila me g lista lojtarësh.
+The variable x[week, player] assigns a player to a group for that week.
+The domain is {0, ..., g-1}; players are numbered from 0 to g*p-1.
+Each group contains p players, and no pair may meet more than once.
+The schedule is a list of weeks, each containing g lists of players.
 """
 
 from itertools import combinations
@@ -11,23 +11,23 @@ from math import factorial
 
 
 def upper_bound(g, p):
-    """Çdo lojtar takon p-1 lojtarë të rinj në javë, nga g*p-1 gjithsej."""
+    """Each player meets p-1 new players per week out of g*p-1 other players."""
     if g < 1 or p < 2:
         raise ValueError("Kërkohet g >= 1 dhe p >= 2.")
     return (g * p - 1) // (p - 1)
 
 
 def landscape(g, p, w):
-    """Madhësitë e hapësirës para kontrollit të çifteve të përsëritura.
+    """Search space sizes before checking for repeated pairs.
 
-    Grupet trajtohen pa renditje në numërimin e ndarjeve javore.
-    Këto madhësi nuk janë numri i orareve që e zgjidhin problemin.
+    Groups are treated as unordered when counting weekly partitions.
+    These sizes do not count schedules that satisfy all constraints.
     """
     bound = upper_bound(g, p)
     if w < 1:
         raise ValueError("Numri i javëve duhet të jetë pozitiv.")
     n = g * p
-    # Hiq renditjet brenda çdo grupi dhe renditjet e vetë grupeve.
+    # Remove permutations within each group and permutations of the groups.
     partitions = factorial(n) // (factorial(p) ** g * factorial(g))
     return {
         "variables": n * w,
@@ -40,7 +40,7 @@ def landscape(g, p, w):
 
 
 def objective(schedule):
-    """Minimizo takimet e përsëritura; një orar i vlefshëm ka vlerën 0."""
+    """Minimize repeated meetings; a valid schedule has an objective value of 0."""
     seen = set()
     repeats = 0
     for week in schedule:
@@ -53,7 +53,7 @@ def objective(schedule):
 
 
 def valid(schedule, g, p, w):
-    """Kontrollo javët, madhësitë, pjesëmarrjen dhe çiftet e përsëritura."""
+    """Check weeks, group sizes, player participation, and repeated pairs."""
     upper_bound(g, p)
     if w < 1 or len(schedule) != w:
         return False

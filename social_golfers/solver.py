@@ -1,7 +1,7 @@
-"""Social Golfers me DFS dhe Backtracking.
+"""Social Golfers using DFS with backtracking.
 
-Ekzekutimi: python3 social_golfers/solver.py --groups 8 --size 4 --weeks 3
-Kufiri teorik i javëve nuk garanton se DFS e gjen një orar brenda kohës.
+Run: python3 social_golfers/solver.py --groups 8 --size 4 --weeks 3
+The theoretical week bound does not guarantee that DFS finds a schedule within the time limit.
 """
 import argparse
 from itertools import combinations
@@ -21,7 +21,7 @@ def solve(g=8, p=4, w=3, max_nodes=200_000, timeout=20.0):
         return {"status": "unsatisfiable", "schedule": None,
                 "reason": "Tejkalohet kufiri teorik i javëve.", "stats": stats.dictionary()}
     n = g * p
-    # Riemërtimi i lojtarëve e bën javën e parë fikse pa humbur zgjidhje.
+    # Relabeling players fixes the first week without losing solutions.
     schedule = [[list(range(k * p, (k + 1) * p)) for k in range(g)]]
     seen = {pair for group in schedule[0] for pair in combinations(group, 2)}
 
@@ -51,11 +51,11 @@ def solve(g=8, p=4, w=3, max_nodes=200_000, timeout=20.0):
             stats.generated += 1
             if place(player + 1, groups):
                 return True
-            # Undo i plotë: grupi dhe çiftet kthehen në gjendjen e mëparshme.
+            # Undo the assignment: restore both the group and the recorded pairs.
             group.pop()
             seen.difference_update(pairs)
             stats.backtracks += 1
-            # Grupet bosh janë simetrike: provohet vetëm i pari.
+            # Empty groups are symmetric, so only the first one is tried.
             if was_empty:
                 break
         return False

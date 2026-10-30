@@ -1,4 +1,4 @@
-"""Teste për zgjidhjet, shterimin e kërkimit dhe kufijtë e DFS."""
+"""Tests for solutions, exhaustive search, and DFS resource limits."""
 import unittest
 
 from model import valid
@@ -27,7 +27,7 @@ class SolverTests(unittest.TestCase):
         self.assertIsNone(result["schedule"])
 
     def test_exhaustion_below_bound(self):
-        # Në 2 grupe me nga 3, çdo grup i ri do të përsërisë një çift.
+        # With 2 groups of 3, every group in the next week must repeat a pair.
         result = solve(2, 3, 2)
         self.assertEqual(result["status"], "unsatisfiable")
         self.assertGreater(result["stats"]["backtracks"], 0)
