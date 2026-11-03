@@ -1,0 +1,408 @@
+{
+  "truncated": false,
+  "nodes": [
+    {
+      "id": 0,
+      "state": [
+        3,
+        3,
+        0
+      ],
+      "depth": 0,
+      "parent": null,
+      "action": "Fillimi",
+      "goal": false,
+      "repeat": null
+    },
+    {
+      "id": 1,
+      "state": [
+        3,
+        2,
+        1
+      ],
+      "depth": 1,
+      "parent": 0,
+      "action": "0M,1C →",
+      "goal": false,
+      "repeat": null
+    },
+    {
+      "id": 2,
+      "state": [
+        3,
+        1,
+        1
+      ],
+      "depth": 1,
+      "parent": 0,
+      "action": "0M,2C →",
+      "goal": false,
+      "repeat": null
+    },
+    {
+      "id": 3,
+      "state": [
+        2,
+        2,
+        1
+      ],
+      "depth": 1,
+      "parent": 0,
+      "action": "1M,1C →",
+      "goal": false,
+      "repeat": null
+    },
+    {
+      "id": 4,
+      "state": [
+        3,
+        3,
+        0
+      ],
+      "depth": 2,
+      "parent": 1,
+      "action": "0M,1C ←",
+      "goal": false,
+      "repeat": 0
+    },
+    {
+      "id": 5,
+      "state": [
+        3,
+        2,
+        0
+      ],
+      "depth": 2,
+      "parent": 2,
+      "action": "0M,1C ←",
+      "goal": false,
+      "repeat": null
+    },
+    {
+      "id": 6,
+      "state": [
+        3,
+        3,
+        0
+      ],
+      "depth": 2,
+      "parent": 2,
+      "action": "0M,2C ←",
+      "goal": false,
+      "repeat": 0
+    },
+    {
+      "id": 7,
+      "state": [
+        3,
+        2,
+        0
+      ],
+      "depth": 2,
+      "parent": 3,
+      "action": "1M,0C ←",
+      "goal": false,
+      "repeat": 5
+    },
+    {
+      "id": 8,
+      "state": [
+        3,
+        3,
+        0
+      ],
+      "depth": 2,
+      "parent": 3,
+      "action": "1M,1C ←",
+      "goal": false,
+      "repeat": 0
+    },
+    {
+      "id": 9,
+      "state": [
+        2,
+        2,
+        1
+      ],
+      "depth": 3,
+      "parent": 5,
+      "action": "1M,0C →",
+      "goal": false,
+      "repeat": 3
+    },
+    {
+      "id": 10,
+      "state": [
+        3,
+        1,
+        1
+      ],
+      "depth": 3,
+      "parent": 5,
+      "action": "0M,1C →",
+      "goal": false,
+      "repeat": 2
+    },
+    {
+      "id": 11,
+      "state": [
+        3,
+        0,
+        1
+      ],
+      "depth": 3,
+      "parent": 5,
+      "action": "0M,2C →",
+      "goal": false,
+      "repeat": null
+    },
+    {
+      "id": 12,
+      "state": [
+        3,
+        1,
+        0
+      ],
+      "depth": 4,
+      "parent": 11,
+      "action": "0M,1C ←",
+      "goal": false,
+      "repeat": null
+    },
+    {
+      "id": 13,
+      "state": [
+        3,
+        2,
+        0
+      ],
+      "depth": 4,
+      "parent": 11,
+      "action": "0M,2C ←",
+      "goal": false,
+      "repeat": 5
+    },
+    {
+      "id": 14,
+      "state": [
+        1,
+        1,
+        1
+      ],
+      "depth": 5,
+      "parent": 12,
+      "action": "2M,0C →",
+      "goal": false,
+      "repeat": null
+    },
+    {
+      "id": 15,
+      "state": [
+        3,
+        0,
+        1
+      ],
+      "depth": 5,
+      "parent": 12,
+      "action": "0M,1C →",
+      "goal": false,
+      "repeat": 11
+    },
+    {
+      "id": 16,
+      "state": [
+        3,
+        1,
+        0
+      ],
+      "depth": 6,
+      "parent": 14,
+      "action": "2M,0C ←",
+      "goal": false,
+      "repeat": 12
+    },
+    {
+      "id": 17,
+      "state": [
+        2,
+        2,
+        0
+      ],
+      "depth": 6,
+      "parent": 14,
+      "action": "1M,1C ←",
+      "goal": false,
+      "repeat": null
+    },
+    {
+      "id": 18,
+      "state": [
+        0,
+        2,
+        1
+      ],
+      "depth": 7,
+      "parent": 17,
+      "action": "2M,0C →",
+      "goal": false,
+      "repeat": null
+    },
+    {
+      "id": 19,
+      "state": [
+        1,
+        1,
+        1
+      ],
+      "depth": 7,
+      "parent": 17,
+      "action": "1M,1C →",
+      "goal": false,
+      "repeat": 14
+    },
+    {
+      "id": 20,
+      "state": [
+        2,
+        2,
+        0
+      ],
+      "depth": 8,
+      "parent": 18,
+      "action": "2M,0C ←",
+      "goal": false,
+      "repeat": 17
+    },
+    {
+      "id": 21,
+      "state": [
+        0,
+        3,
+        0
+      ],
+      "depth": 8,
+      "parent": 18,
+      "action": "0M,1C ←",
+      "goal": false,
+      "repeat": null
+    },
+    {
+      "id": 22,
+      "state": [
+        0,
+        2,
+        1
+      ],
+      "depth": 9,
+      "parent": 21,
+      "action": "0M,1C →",
+      "goal": false,
+      "repeat": 18
+    },
+    {
+      "id": 23,
+      "state": [
+        0,
+        1,
+        1
+      ],
+      "depth": 9,
+      "parent": 21,
+      "action": "0M,2C →",
+      "goal": false,
+      "repeat": null
+    },
+    {
+      "id": 24,
+      "state": [
+        1,
+        1,
+        0
+      ],
+      "depth": 10,
+      "parent": 23,
+      "action": "1M,0C ←",
+      "goal": false,
+      "repeat": null
+    },
+    {
+      "id": 25,
+      "state": [
+        0,
+        2,
+        0
+      ],
+      "depth": 10,
+      "parent": 23,
+      "action": "0M,1C ←",
+      "goal": false,
+      "repeat": null
+    },
+    {
+      "id": 26,
+      "state": [
+        0,
+        3,
+        0
+      ],
+      "depth": 10,
+      "parent": 23,
+      "action": "0M,2C ←",
+      "goal": false,
+      "repeat": 21
+    },
+    {
+      "id": 27,
+      "state": [
+        0,
+        1,
+        1
+      ],
+      "depth": 11,
+      "parent": 24,
+      "action": "1M,0C →",
+      "goal": false,
+      "repeat": 23
+    },
+    {
+      "id": 28,
+      "state": [
+        0,
+        0,
+        1
+      ],
+      "depth": 11,
+      "parent": 24,
+      "action": "1M,1C →",
+      "goal": true,
+      "repeat": null
+    },
+    {
+      "id": 29,
+      "state": [
+        0,
+        1,
+        1
+      ],
+      "depth": 11,
+      "parent": 25,
+      "action": "0M,1C →",
+      "goal": false,
+      "repeat": 23
+    },
+    {
+      "id": 30,
+      "state": [
+        0,
+        0,
+        1
+      ],
+      "depth": 11,
+      "parent": 25,
+      "action": "0M,2C →",
+      "goal": true,
+      "repeat": 28
+    }
+  ]
+}
