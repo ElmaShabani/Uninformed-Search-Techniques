@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="sq">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sudoku Solver</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6fb;color:#18243a;font-family:system-ui,sans-serif;padding:40px 20px}main{max-width:620px;margin:auto}h1{margin:0 0 8px;font-size:30px}p{color:#526079;line-height:1.6}.controls{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0}button,select{font:inherit;padding:11px 16px;border:1px solid #c6cfdf;border-radius:8px;background:white;color:#18243a;cursor:pointer}button.primary{background:#1d4ed8;color:white;border-color:#1d4ed8}button:focus-visible,select:focus-visible{outline:3px solid #93c5fd;outline-offset:3px}.board{display:grid;grid-template-columns:repeat(9,1fr);width:min(100%,480px);aspect-ratio:1;border:3px solid #18243a;background:white}.cell{display:flex;align-items:center;justify-content:center;border-right:1px solid #cdd5e3;border-bottom:1px solid #cdd5e3;font-size:clamp(17px,4vw,27px);font-weight:650}.cell.box-right{border-right:3px solid #18243a}.cell.box-bottom{border-bottom:3px solid #18243a}.cell.last-col{border-right:0}.cell.last-row{border-bottom:0}.cell.answer{background:#eaf6ef;color:#166534;font-weight:500}.legend{display:flex;gap:18px;font-size:14px;margin-top:18px}.legend span:last-child{color:#166534}#status{min-height:28px;font-weight:600;margin-top:20px}
+.cell input{width:100%;height:100%;border:0;border-radius:0;background:transparent;text-align:center;font:inherit;font-weight:500;color:#1d4ed8;padding:0;min-width:0}.cell input:focus{outline:3px solid #60a5fa;outline-offset:-3px;background:#eff6ff}.cell.error{background:#fee2e2;color:#b91c1c}.cell.error input{color:#b91c1c}.cell.answer input{color:#166534}
+</style>
+<main><h1>Sudoku Solver</h1><p>Zgjidh nivelin dhe plotëso qelizat bosh me numrat 1–9.</p>
+<div class="controls"><select id="level" aria-label="Niveli"><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select><button class="primary" id="check">Kontrollo</button><button id="solve">Shfaq zgjidhjen</button><button id="reset">Rikthe fillimin</button></div>
+<div id="board" class="board" role="table" aria-label="Sudoku 9 me 9"></div>
+<div class="legend"><span>Numrat fillestarë</span><span>Qelizat bosh mund t’i plotësosh vetë</span></div><p id="status" aria-live="polite"></p></main>
+<script>
+const puzzles = {"easy": {"initial": [5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9, 8, 0, 0, 0, 0, 6, 0, 8, 0, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 8, 0, 3, 0, 0, 1, 7, 0, 0, 0, 2, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 4, 1, 9, 0, 0, 5, 0, 0, 0, 0, 8, 0, 0, 7, 9], "solution": [5, 3, 4, 6, 7, 8, 9, 1, 2, 6, 7, 2, 1, 9, 5, 3, 4, 8, 1, 9, 8, 3, 4, 2, 5, 6, 7, 8, 5, 9, 7, 6, 1, 4, 2, 3, 4, 2, 6, 8, 5, 3, 7, 9, 1, 7, 1, 3, 9, 2, 4, 8, 5, 6, 9, 6, 1, 5, 3, 7, 2, 8, 4, 2, 8, 7, 4, 1, 9, 6, 3, 5, 3, 4, 5, 2, 8, 6, 1, 7, 9]}, "medium": {"initial": [0, 0, 0, 0, 0, 0, 9, 0, 7, 0, 0, 0, 4, 2, 0, 1, 8, 0, 0, 0, 0, 7, 0, 5, 0, 2, 6, 1, 0, 0, 9, 0, 4, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 5, 0, 7, 0, 0, 9, 9, 2, 0, 1, 0, 8, 0, 0, 0, 0, 3, 4, 0, 5, 9, 0, 0, 0, 5, 0, 7, 0, 0, 0, 0, 0, 0], "solution": [4, 6, 2, 8, 3, 1, 9, 5, 7, 7, 9, 5, 4, 2, 6, 1, 8, 3, 3, 8, 1, 7, 9, 5, 4, 2, 6, 1, 7, 3, 9, 8, 4, 2, 6, 5, 6, 5, 9, 3, 1, 2, 7, 4, 8, 2, 4, 8, 5, 6, 7, 3, 1, 9, 9, 2, 6, 1, 7, 8, 5, 3, 4, 8, 3, 4, 2, 5, 9, 6, 7, 1, 5, 1, 7, 6, 4, 3, 8, 9, 2]}, "hard": {"initial": [1, 0, 0, 0, 0, 7, 0, 9, 0, 0, 3, 0, 0, 2, 0, 0, 0, 8, 0, 0, 9, 6, 0, 0, 5, 0, 0, 0, 0, 5, 3, 0, 0, 9, 0, 0, 0, 1, 0, 0, 8, 0, 0, 0, 2, 6, 0, 0, 0, 0, 4, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 4, 0, 0, 0, 0, 0, 0, 7, 0, 0, 7, 0, 0, 0, 3, 0, 0], "solution": [1, 6, 2, 8, 5, 7, 4, 9, 3, 5, 3, 4, 1, 2, 9, 6, 7, 8, 7, 8, 9, 6, 4, 3, 5, 2, 1, 4, 7, 5, 3, 1, 2, 9, 8, 6, 9, 1, 3, 5, 8, 6, 7, 4, 2, 6, 2, 8, 7, 9, 4, 1, 3, 5, 3, 5, 6, 4, 7, 8, 2, 1, 9, 2, 4, 1, 9, 3, 5, 8, 6, 7, 8, 9, 7, 2, 6, 1, 3, 5, 4]}};
+const board = document.getElementById('board');
+const level = document.getElementById('level');
+let values=[];
+let showingSolution=false;
+const status=document.getElementById('status');
+function clearErrors(){board.querySelectorAll('.error').forEach(cell=>cell.classList.remove('error'));}
+function render(showSolution=false){
+ const puzzle=puzzles[level.value];
+ showingSolution=showSolution;
+ values=[...(showSolution?puzzle.solution:puzzle.initial)];
+ board.replaceChildren();
+ values.forEach((value,i)=>{
+  const cell=document.createElement('div');
+  const row=Math.floor(i/9),col=i%9;
+  cell.className='cell';
+  if(col===2||col===5)cell.classList.add('box-right');
+  if(row===2||row===5)cell.classList.add('box-bottom');
+  if(col===8)cell.classList.add('last-col');
+  if(row===8)cell.classList.add('last-row');
+  cell.setAttribute('role','cell');
+  if(puzzle.initial[i]){
+   cell.textContent=value;
+   cell.setAttribute('aria-label',`Rreshti ${row+1}, kolona ${col+1}: ${value}, numër fillestar`);
+  }else{
+   const input=document.createElement('input');
+   input.type='text';input.inputMode='numeric';input.maxLength=1;
+   input.autocomplete='off';input.spellcheck=false;
+   input.value=value||'';
+   input.setAttribute('aria-label',`Rreshti ${row+1}, kolona ${col+1}`);
+   if(showSolution)cell.classList.add('answer');
+   input.addEventListener('input',()=>{
+    input.value=input.value.replace(/[^1-9]/g,'').slice(0,1);
+    values[i]=Number(input.value)||0;
+    showingSolution=false;
+    cell.classList.remove('answer');
+    clearErrors();
+    status.textContent='Qeliza bosh: '+values.filter(v=>!v).length;
+   });
+   input.addEventListener('keydown',event=>{
+    const offset={ArrowUp:-9,ArrowDown:9,ArrowLeft:-1,ArrowRight:1}[event.key];
+    if(offset===undefined)return;
+    event.preventDefault();
+    let target=i+offset;
+    while(target>=0&&target<81){
+     const next=board.children[target].querySelector('input');
+     if(next){next.focus();next.select();break;}
+     target+=offset;
+    }
+   });
+   cell.append(input);
+  }
+  board.append(cell);
+ });
+ status.textContent=showSolution?'Zgjidhja u shfaq. Kliko “Rikthe fillimin” për ta provuar vetë.':'Qeliza bosh: '+values.filter(v=>!v).length;
+}
+function check(){
+ clearErrors();
+ const conflicts=new Set();
+ const units=[];
+ for(let r=0;r<9;r++)units.push(Array.from({length:9},(_,c)=>r*9+c));
+ for(let c=0;c<9;c++)units.push(Array.from({length:9},(_,r)=>r*9+c));
+ for(let r=0;r<9;r+=3)for(let c=0;c<9;c+=3){
+  units.push(Array.from({length:9},(_,k)=>(r+Math.floor(k/3))*9+c+k%3));
+ }
+ for(const unit of units){
+  const seen=new Map();
+  for(const i of unit){
+   if(!values[i])continue;
+   if(seen.has(values[i])){conflicts.add(i);conflicts.add(seen.get(values[i]));}
+   else seen.set(values[i],i);
+  }
+ }
+ for(const i of conflicts)board.children[i].classList.add('error');
+ const empty=values.filter(v=>!v).length;
+ if(conflicts.size)status.textContent='Ka numra të përsëritur. Qelizat me konflikt janë të kuqe.';
+ else if(empty)status.textContent=`Deri tash pa përsëritje në rreshta, kolona dhe kuti. Mbeten ${empty} qeliza.`;
+ else status.textContent=showingSolution?'Zgjidhja e shfaqur është e vlefshme.':'Urime! E plotësove saktë Sudoku-n.';
+}
+level.addEventListener('change',()=>render());
+document.getElementById('check').addEventListener('click',check);
+document.getElementById('solve').addEventListener('click',()=>render(true));
+document.getElementById('reset').addEventListener('click',()=>render());
+render();
+</script></html>
